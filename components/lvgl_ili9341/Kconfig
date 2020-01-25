@@ -191,9 +191,9 @@ menu "LittlevGL (LVGL)"
             int "GPIO for IRQ (Interrupt Request)"
 	    range 0 39	
             default 27 if LVGL_PREDEFINED_PINS_38V4
-            default 25
+            default 2
             help
-            Configure the touchpanel CS pin here.
+            Configure the touchpanel IRQ (Interrupt Request) pin here.
     endmenu
 
     menu "Touchpanel Configuration"
@@ -230,7 +230,7 @@ menu "LittlevGL (LVGL)"
 
         config LVGL_TOUCH_INVERT_Y
             bool
-            prompt "Invert X coordinate value."
+            prompt "Invert Y coordinate value."
             default y
 
     endmenu

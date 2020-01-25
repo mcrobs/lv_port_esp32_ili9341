@@ -52,7 +52,7 @@
 #define LV_USE_TERMINAL    0
 
 /*Touch pad calibration with 4 points*/
-#define LV_USE_TPCAL       0
+#define LV_USE_TPCAL       1
 
 #endif /*LV_EX_CONF_H*/
 

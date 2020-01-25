@@ -77,7 +77,7 @@ bool xpt2046_read(lv_indev_drv_t * drv, lv_indev_data_t * data)
 
         buf = tp_spi_xchg(0);           /*Read x MSB*/
         x = buf << 8;
-        buf = tp_spi_xchg(CMD_Y_READ);  /*Until x LSB converted y command can be sent*/
+        buf = tp_spi_xchg(0);  /*Until x LSB converted y command can be sent*/
         x += buf;
 
         buf =  tp_spi_xchg(0);   /*Read y MSB*/
@@ -86,6 +86,7 @@ bool xpt2046_read(lv_indev_drv_t * drv, lv_indev_data_t * data)
         buf =  tp_spi_xchg(0);   /*Read y LSB*/
         y += buf;
         gpio_set_level(TP_SPI_CS, 1);
+        printf("x,y %d, %d\n", x,y);
 
         /*Normalize Data*/
         x = x >> 3;

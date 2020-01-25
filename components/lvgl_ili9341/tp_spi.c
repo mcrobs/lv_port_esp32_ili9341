@@ -41,7 +41,7 @@ void tp_spi_init(void)
 {
 
 	esp_err_t ret;
-
+/*
 	spi_bus_config_t buscfg={
 		.miso_io_num=TP_SPI_MISO,
 		.mosi_io_num=TP_SPI_MOSI,
@@ -49,22 +49,22 @@ void tp_spi_init(void)
 		.quadwp_io_num=-1,
 		.quadhd_io_num=-1
 	};
-
+*/
 	spi_device_interface_config_t devcfg={
 		.clock_speed_hz=2*1000*1000,           //Clock out at 80 MHz
 		.mode=0,                                //SPI mode 0
-		.spics_io_num=-1,              //CS pin
+		.spics_io_num=TP_SPI_CS,              //CS pin
 		.queue_size=1,
 		.pre_cb=NULL,
 		.post_cb=NULL,
 	};
-
+/*
 	//Initialize the SPI bus
 	ret=spi_bus_initialize(VSPI_HOST, &buscfg, 2);
 	assert(ret==ESP_OK);
-
+*/
 	//Attach the LCD to the SPI bus
-	ret=spi_bus_add_device(VSPI_HOST, &devcfg, &spi);
+	ret=spi_bus_add_device(HSPI_HOST, &devcfg, &spi);
 	assert(ret==ESP_OK);
 }
 
