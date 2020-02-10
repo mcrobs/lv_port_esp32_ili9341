@@ -36,6 +36,7 @@ extern "C" {
  **********************/
 void tp_spi_init(void);
 uint8_t tp_spi_xchg(uint8_t data_send);
+int16_t iot_xpt2046_readdata( const uint8_t command);
 
 /**********************
  *      MACROS

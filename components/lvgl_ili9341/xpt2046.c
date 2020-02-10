@@ -70,27 +70,14 @@ bool xpt2046_read(lv_indev_drv_t * drv, lv_indev_data_t * data)
     int16_t y = 0;
 
     uint8_t irq = gpio_get_level(XPT2046_IRQ);
-
+    
     if(irq == 0) {
         gpio_set_level(TP_SPI_CS, 0);
-        tp_spi_xchg(CMD_X_READ);         /*Start x read*/
-
-        buf = tp_spi_xchg(0);           /*Read x MSB*/
-        x = buf << 8;
-        buf = tp_spi_xchg(0);  /*Until x LSB converted y command can be sent*/
-        x += buf;
-
-        buf =  tp_spi_xchg(0);   /*Read y MSB*/
-        y = buf << 8;
-
-        buf =  tp_spi_xchg(0);   /*Read y LSB*/
-        y += buf;
+        x = iot_xpt2046_readdata( CMD_X_READ);
+        y = iot_xpt2046_readdata( CMD_Y_READ);
         gpio_set_level(TP_SPI_CS, 1);
         printf("x,y %d, %d\n", x,y);
 
-        /*Normalize Data*/
-        x = x >> 3;
-        y = y >> 3;
         xpt2046_corr(&x, &y);
         xpt2046_avg(&x, &y);
         last_x = x;
@@ -98,6 +85,7 @@ bool xpt2046_read(lv_indev_drv_t * drv, lv_indev_data_t * data)
 
 
     } else {
+        printf("NO DEAL");
         x = last_x;
         y = last_y;
         avg_last = 0;
