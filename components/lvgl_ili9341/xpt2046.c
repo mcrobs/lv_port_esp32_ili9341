@@ -78,13 +78,13 @@ bool xpt2046_read(lv_indev_drv_t * drv, lv_indev_data_t * data)
     gpio_set_level(TP_SPI_CS, 1);
 
     if (z > 10 ) {
-        printf("x,y,z %d, %d, %d\n", x,y,z);
+       // printf("x,y,z %d, %d, %d\n", x,y,z);
         xpt2046_corr(&x, &y);
         xpt2046_avg(&x, &y);
         last_x = x;
         last_y = y;
     } else {
-        printf("NO DEAL");
+       // printf("NO DEAL");
         x = last_x;
         y = last_y;
         avg_last = 0;
