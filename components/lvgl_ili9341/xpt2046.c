@@ -17,6 +17,8 @@
  *********************/
 #define CMD_X_READ  0b10010000
 #define CMD_Y_READ  0b11010000
+#define CMD_Z1_READ  0b10110000
+#define CMD_Z2_READ  0b11000000
 
 /**********************
  *      TYPEDEFS
@@ -64,26 +66,23 @@ bool xpt2046_read(lv_indev_drv_t * drv, lv_indev_data_t * data)
     static int16_t last_x = 0;
     static int16_t last_y = 0;
     bool valid = true;
-    uint8_t buf;
 
     int16_t x = 0;
     int16_t y = 0;
-
-    uint8_t irq = gpio_get_level(XPT2046_IRQ);
+    int16_t z = 0;
     
-    if(irq == 0) {
-        gpio_set_level(TP_SPI_CS, 0);
-        x = iot_xpt2046_readdata( CMD_X_READ);
-        y = iot_xpt2046_readdata( CMD_Y_READ);
-        gpio_set_level(TP_SPI_CS, 1);
-        printf("x,y %d, %d\n", x,y);
+    gpio_set_level(TP_SPI_CS, 0);
+    x = iot_xpt2046_readdata( CMD_X_READ);
+    y = iot_xpt2046_readdata( CMD_Y_READ);
+    z = iot_xpt2046_readdata( CMD_Z1_READ);
+    gpio_set_level(TP_SPI_CS, 1);
 
+    if (z > 10 ) {
+        printf("x,y,z %d, %d, %d\n", x,y,z);
         xpt2046_corr(&x, &y);
         xpt2046_avg(&x, &y);
         last_x = x;
         last_y = y;
-
-
     } else {
         printf("NO DEAL");
         x = last_x;
